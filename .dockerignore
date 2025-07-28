@@ -1,0 +1,33 @@
+# Ignore node_modules - we install fresh in the image
+node_modules
+
+# Ignore build artifacts and cache
+dist
+build
+.cache
+.next
+turbo
+
+# Ignore config not needed at runtime
+*.log
+*.lock
+*.tsbuildinfo
+
+# Ignore Git-related
+.git
+.gitignore
+
+# Ignore environment variables
+.env
+.env.*
+secrets.txt
+
+# Editor and OS files
+.vscode
+.idea
+.DS_Store
+Thumbs.db
+
+# Replit
+.replit
+replit.md

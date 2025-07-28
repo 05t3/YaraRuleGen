@@ -1,0 +1,11 @@
+services:
+  rulesmith:
+    build: .
+    container_name: rulesmith_app
+    ports:
+      - "4173:4173"
+    volumes:
+      - .:/app
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped

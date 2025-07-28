@@ -1,0 +1,78 @@
+  name: Trivy Image Scanner
+
+  on:
+    workflow_run:
+      workflows: ["Build and Push Docker Image to Docker Hub and GHCR using VERSION file"]
+      types:
+        - completed
+
+  permissions:
+    contents: read
+    security-events: write
+    actions: read
+
+  jobs:
+    trivy-scan:
+      if: ${{ github.event.workflow_run.conclusion == 'success' }}
+      runs-on: ubuntu-latest
+
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v4
+
+        - name: Read VERSION file
+          id: get_version
+          run: echo "version=$(cat VERSION)" >> $GITHUB_OUTPUT
+
+        - name: Set lowercase image name
+          id: image
+          run: |
+            REPO_LOWER=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
+            IMAGE_NAME=$(basename "${REPO_LOWER}")
+            echo "repo_lower=$REPO_LOWER" >> $GITHUB_OUTPUT
+            echo "image_name=$IMAGE_NAME" >> $GITHUB_OUTPUT
+
+        - name: Docker login (Docker Hub)
+          uses: docker/login-action@v3
+          with:
+            username: ${{ secrets.DOCKERHUB_USERNAME }}
+            password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+        - name: Docker login (GHCR)
+          uses: docker/login-action@v3
+          with:
+            registry: ghcr.io
+            username: ${{ github.actor }}
+            password: ${{ secrets.GITHUB_TOKEN }}
+
+        - name: Pull GHCR image
+          run: docker pull ghcr.io/${{ steps.image.outputs.repo_lower }}:${{ steps.get_version.outputs.version }}
+
+        - name: Pull Docker Hub image
+          run: docker pull oste/${{ steps.image.outputs.image_name }}:${{ steps.get_version.outputs.version }}
+
+        - name: Scan GHCR image with Trivy
+          uses: aquasecurity/trivy-action@master
+          with:
+            image-ref: ghcr.io/${{ steps.image.outputs.repo_lower }}:${{ steps.get_version.outputs.version }}
+            format: sarif
+            output: trivy-ghcr.sarif
+
+        - name: Scan Docker Hub image with Trivy
+          uses: aquasecurity/trivy-action@master
+          with:
+            image-ref: oste/${{ steps.image.outputs.image_name }}:${{ steps.get_version.outputs.version }}
+            format: sarif
+            output: trivy-dockerhub.sarif
+
+        - name: Upload GHCR SARIF
+          uses: github/codeql-action/upload-sarif@v3
+          with:
+            sarif_file: trivy-ghcr.sarif
+            category: trivy-ghcr
+
+        - name: Upload Docker Hub SARIF
+          uses: github/codeql-action/upload-sarif@v3
+          with:
+            sarif_file: trivy-dockerhub.sarif
+            category: trivy-dockerhub

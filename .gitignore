@@ -1,0 +1,52 @@
+# dependencies
+node_modules/
+attached_assets/
+
+.env
+.env.local
+.env.*.local
+secrets.txt
+
+# build outputs
+dist/
+build/
+out/
+
+# system files
+.DS_Store
+Thumbs.db
+
+# IDEs/editors
+.vscode/
+.idea/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Replit
+.replit
+replit.md
+
+# OS-generated files
+*.swp
+*.swo
+
+# Cache
+.cache/
+.next/
+turbo/
+
+# Compiled output
+*.tsbuildinfo
+
+# misc
+coverage/
+*.log
+*.lock
+
+# config artifacts (if generated at runtime)
+*.local
+*.bak
+*.tmp
