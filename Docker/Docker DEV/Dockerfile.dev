@@ -5,7 +5,7 @@ FROM node:20-alpine
 WORKDIR /app
 
 # Set environment variables
-ENV NODE_ENV=development
+ENV NODE_ENV=production
 
 # Copy package files & install dependencies
 COPY package*.json ./
@@ -19,4 +19,5 @@ COPY . .
 EXPOSE 5000
 
 # Command can be overridden with CMD in docker-compose
-CMD ["npm", "run", "dev"]
+RUN npm ci && npm run build
+CMD ["npm", "run", "start"]

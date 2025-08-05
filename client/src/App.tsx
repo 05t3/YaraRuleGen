@@ -4,14 +4,14 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "next-themes";
-import RuleSmith from "@/pages/rule-smith";
+import YaraRuleGen from "@/pages/rule-smith";
 import About from "@/pages/about";
 import NotFound from "@/pages/not-found";
 
 function Router() {
   return (
     <Switch>
-      <Route path="/" component={RuleSmith} />
+      <Route path="/" component={YaraRuleGen} />
       <Route path="/about" component={About} />
       <Route component={NotFound} />
     </Switch>

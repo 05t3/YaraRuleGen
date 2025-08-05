@@ -101,44 +101,6 @@ export default function About() {
             </Card>
           </div>
 
-          {/* What are Sigma Rules */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-2xl">What are Sigma Rules?</CardTitle>
-            </CardHeader>
-            <CardContent className="prose dark:prose-invert max-w-none">
-              <p className="text-lg leading-relaxed">
-                Sigma is an open and versatile signature format that empowers security analysts to document log events in an organized manner. 
-                This facilitates the seamless exchange of detection techniques, signatures, and IOCs across different platforms and tools.
-              </p>
-              
-              <h3 className="text-xl font-semibold mt-6 mb-4">Key Features</h3>
-              <ul className="space-y-2">
-                <li><strong>Real-Time Rule Generation:</strong> As you fill in the forms, the tool dynamically constructs the Yara rule and updates the preview window, reflecting changes instantly.</li>
-                <li><strong>Flexible Input Options:</strong> Define rules with multiple strings (text or hex), logical conditions (e.g., all of them, any of them, 1 of them), and file size constraints. Add hashes to target specific samples.</li>
-                <li><strong>Metadata Support</strong> Capture critical details—author, date, description, and references—to maintain context and traceability.</li>
-                <li><strong>Export Capabilities:</strong> Copy the generated rule to your clipboard or download it as a .yar file, ready for integration with tools like Yara, ClamAV, or your SIEM.</li>
-                <li><strong>Syntax Validation:</strong> Ensure every rule is valid before deployment, minimizing runtime errors.</li>
-              </ul>
-
-              <h3 className="text-xl font-semibold mt-6 mb-4">How It Works</h3>
-              <ul className="space-y-2">
-                <li><strong>Rule Identification:</strong> Start by naming your rule and assigning a unique ID (UUID). This helps track rules across your organization.</li>
-                <li><strong>Metadata Configuration:</strong> Add author details, creation date, a description of the malicious behavior, and relevant references (e.g., CVE IDs or threat reports).</li>
-                <li><strong>String Definition:</strong> Input strings to match against files—use escape sequences for binary patterns (e.g., \x00) or plain text. Add multiple strings and decide how they should be evaluated (e.g., and, or, not).</li>
-                <li><strong>Condition Logic:</strong> Build conditions using the form’s logical operators and predefined functions (e.g., uint16(), filesize). Combine strings and file properties to create robust detection logic.</li>
-                <li><strong>Preview and Export:</strong> Review the generated rule in the live preview window. If the syntax is valid (indicated by a green checkmark), copy it or download it for use.</li>
-              </ul>
-
-              <h3 className="text-xl font-semibold mt-6 mb-4">Who Benefits?</h3>
-              <ul className="space-y-2">
-                <li><strong>Threat Hunters:</strong> Quickly generate rules to track Indicators of Compromise (IOCs) during incident response.</li>
-                <li><strong>Malware Analysts:</strong> ACreate signatures for new malware families based on reverse-engineering findings.</li>
-                <li><strong>SOC Teams:</strong> Deploy rules to detect known attack patterns across endpoints and networks.</li>
-                <li><strong>Security Researchers:</strong> Share well-documented rules with the community to enhance collective defense.</li>
-              </ul>
-            </CardContent>
-          </Card>
         </div>
       </main>
       

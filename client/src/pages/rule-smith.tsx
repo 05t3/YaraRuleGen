@@ -12,7 +12,7 @@ import { useYaraRuleSet } from "@/hooks/use-yara-rule";
 import { generateYaraRuleSet } from "@/utils/yaraBuilder";
 import { Footer } from "@/components/footer";
 
-export default function RuleSmith() {
+export default function YaraRuleGen() {
   const { toast } = useToast();
   const { 
     ruleSet, 

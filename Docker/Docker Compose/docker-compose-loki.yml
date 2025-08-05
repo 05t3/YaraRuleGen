@@ -1,0 +1,36 @@
+services:
+  yararulegen:
+    image: ghcr.io/05t3/yararulegen:${VERSION} # GHCR IMAGE
+#    image: oste/yararulegen:1.0.0  # DOCKERHUB IMAGE
+    container_name: yararulegen
+    ports:
+      - "${PORT}:5000" # DEFINE PORT in the .env file 
+    volumes:
+      - .:/app
+    restart: unless-stopped
+
+###############################################################
+#                       TRAEFIK LABELS                        #
+###############################################################
+
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.yararulegen.rule=Host(`yararulegen.example.org`)"
+      - "traefik.http.routers.yararulegen.entrypoints=https"
+      - "traefik.http.routers.yararulegen.service=yararulegen"
+      - "traefik.http.routers.yararulegen.tls=true"
+      - "traefik.http.routers.yararulegen.tls.certresolver=cloudflare"
+      - "traefik.http.services.yararulegen.loadbalancer.server.port=${PORT}"
+
+###############################################################
+#                       LOGGING WITH LOKI                     #
+###############################################################
+    logging:
+      driver: loki
+      options:
+        loki-url: "https://loki.example.org/loki/api/v1/push"
+        loki-retries: 2
+        loki-max-backoff: 800ms
+        loki-timeout: 1s
+        keep-file: "true"
+        mode: "non-blocking"
